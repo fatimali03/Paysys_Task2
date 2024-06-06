@@ -19,7 +19,7 @@ jobs:
     - name: Compile and run tests
       run: |
         cd $GITHUB_WORKSPACE
-        javac src/OutputCalculator.java src/TestCalculateOutput.java
+        javac src/Calculator.java src/TestCalculateOutput.java
         java -cp src TestCalculateOutput
 
     - name: Upload test results
