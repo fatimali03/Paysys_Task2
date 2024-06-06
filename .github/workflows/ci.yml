@@ -1,35 +1,27 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - main  # Adjust the branch name if needed
-  pull_request:
-    branches:
-      - main  # Adjust the branch name if needed
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'  # Adjust the Java version if needed
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
 
-      - name: Build with Maven
-        run: mvn -B clean package  # Assuming you're using Maven as your build tool
+    - name: Compile and run tests
+      run: |
+        javac Calculator.java TestCalculateOutput.java
+        java TestCalculateOutput
 
-      - name: Run JUnit Tests
-        run: mvn -B test  # Adjust this command based on your testing setup
-
-      - name: Generate Test Report
-        if: always()  # Always generate the test report, even if previous steps fail
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-report
-          path: target/surefire-reports  # Adjust the path to your test report directory
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: test-results.xml
