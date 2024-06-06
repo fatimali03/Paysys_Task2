@@ -1,30 +1,38 @@
-name: CI 
+name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Java
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
+      - name: Set up Java JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
 
-    - name: Build with Maven
-      run: mvn clean install
+      - name: Build with Maven
+        run: mvn clean package -DskipTests=true
 
-    - name: Run tests
-      run: mvn test
+      - name: Run unit tests
+        run: mvn test
 
-    - name: Publish test results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: surefire-reports
-        path: target/surefire-reports
+      - name: Run SonarQube analysis
+        run: mvn sonar:sonar -Dsonar.projectKey=<Your_Project_Key> -Dsonar.organization=<Your_Organization_Key> -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=<Your_SonarCloud_Token>
 
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-reports
+          path: target/surefire-reports
