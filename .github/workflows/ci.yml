@@ -21,7 +21,7 @@ jobs:
 
     - name: Compile and run tests
       run: |
-        javac src/Calculator.java src/TestCalculateOutput.java
+        javac src/OutputCalculator.java src/TestCalculateOutput.java
         java TestCalculateOutput
 
     - name: Upload test results
