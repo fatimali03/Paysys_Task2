@@ -27,8 +27,9 @@ jobs:
       - name: Run unit tests
         run: mvn test
 
-      - name: Run SonarQube analysis
-        run: mvn sonar:sonar -Dsonar.projectKey=<Your_Project_Key> -Dsonar.organization=<Your_Organization_Key> -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=<Your_SonarCloud_Token>
+      # Remove this step if you're not using SonarQube
+      #- name: Run SonarQube analysis
+      #  run: mvn sonar:sonar -Dsonar.projectKey=<Your_Project_Key> -Dsonar.organization=<Your_Organization_Key> -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=<Your_SonarCloud_Token>
 
       - name: Upload test report
         if: always()
