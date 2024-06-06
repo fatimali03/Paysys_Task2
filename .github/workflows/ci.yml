@@ -1,6 +1,12 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name if needed
+  pull_request:
+    branches:
+      - main  # Adjust the branch name if needed
 
 jobs:
   build:
@@ -8,37 +14,22 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
-          distribution: 'adopt'
+          java-version: '11'  # Adjust the Java version if needed
 
-      - name: Install Buildr
-        run: |
-          wget -O buildr-1.5.3.tgz https://www.apache.org/dist/buildr/buildr-1.5.3.tar.gz
-          tar -xzf buildr-1.5.3.tgz
-          if [ $? -ne 0 ]; then
-            echo "Error extracting Buildr tarball."
-            exit 1
-          fi
-          sudo mv buildr-1.5.3 /usr/local/buildr
-          export PATH=$PATH:/usr/local/buildr/bin
+      - name: Build with Maven
+        run: mvn -B clean package  # Assuming you're using Maven as your build tool
 
-      - name: Verify Buildr installation
-        run: buildr -version
+      - name: Run JUnit Tests
+        run: mvn -B test  # Adjust this command based on your testing setup
 
-      - name: Build with Buildr
-        run: buildr compile
-
-      - name: Run unit tests
-        run: buildr test
-
-      - name: Publish test results
-        if: always()
+      - name: Generate Test Report
+        if: always()  # Always generate the test report, even if previous steps fail
         uses: actions/upload-artifact@v2
         with:
-          name: test-results
-          path: target/surefire-reports
+          name: test-report
+          path: target/surefire-reports  # Adjust the path to your test report directory
