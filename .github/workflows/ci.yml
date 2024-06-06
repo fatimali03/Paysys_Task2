@@ -16,10 +16,10 @@ jobs:
         java-version: '11'
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew build --distribution-type=wrapper
 
     - name: Run unit tests
-      run: ./gradlew test
+      run: ./gradlew test --distribution-type=wrapper
 
     - name: Publish test results
       if: always()
