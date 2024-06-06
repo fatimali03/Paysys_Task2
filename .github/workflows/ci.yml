@@ -18,10 +18,17 @@ jobs:
 
       - name: Install Buildr
         run: |
-          wget https://www.apache.org/dist/buildr/buildr-1.5.3.tgz
+          wget -O buildr-1.5.3.tgz https://www.apache.org/dist/buildr/buildr-1.5.3.tar.gz
           tar -xzf buildr-1.5.3.tgz
+          if [ $? -ne 0 ]; then
+            echo "Error extracting Buildr tarball."
+            exit 1
+          fi
           sudo mv buildr-1.5.3 /usr/local/buildr
           export PATH=$PATH:/usr/local/buildr/bin
+
+      - name: Verify Buildr installation
+        run: buildr -version
 
       - name: Build with Buildr
         run: buildr compile
