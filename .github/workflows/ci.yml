@@ -16,14 +16,17 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: List files
+      run: ls -R
+
     - name: Compile and run tests
       run: |
         cd $GITHUB_WORKSPACE
-        javac src/Calculator.java src/TestCalculateOutput.java
-        java -cp src TestCalculateOutput
+        javac src/OutputCalculator.java src/TestCalculateOutput.java
+        java -cp . TestCalculateOutput
 
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path: test-results.xml
+        path: test-results.xml 
