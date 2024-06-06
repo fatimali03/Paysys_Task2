@@ -16,17 +16,15 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
 
-    - name: Build with Gradle
-      run: ./gradlew build --distribution-type=wrapper
-      working-directory: ./fatimali03/Paysys_Task2
+    - name: Build with Maven
+      run: mvn -B clean package --file pom.xml
 
     - name: Run unit tests
-      run: ./gradlew test --distribution-type=wrapper
-      working-directory:  ./fatimali03/Paysys_Task2t # Adjust the path to your project directory
+      run: mvn test --file pom.xml
 
     - name: Publish test results
       if: always()
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: https://github.com/fatimali03/Paysys_Task2/blob/main/TestCalculateOutput.java # Adjust the path to your test results directory
+        path: target/surefire-reports
