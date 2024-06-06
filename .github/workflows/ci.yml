@@ -14,17 +14,19 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '11'
-        distribution: 'adopt' # Or specify the distribution type you prefer, such as 'adopt' or 'temurin'
+        distribution: 'adopt'
 
     - name: Build with Gradle
       run: ./gradlew build --distribution-type=wrapper
+      working-directory: ./fatimali03/Paysys_Task2
 
     - name: Run unit tests
       run: ./gradlew test --distribution-type=wrapper
+      working-directory:  ./fatimali03/Paysys_Task2t # Adjust the path to your project directory
 
     - name: Publish test results
       if: always()
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: build/test-results
+        path: https://github.com/fatimali03/Paysys_Task2/blob/main/TestCalculateOutput.java # Adjust the path to your test results directory
