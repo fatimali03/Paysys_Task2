@@ -14,10 +14,11 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '17'
-        distribution: 'temurin'  # or 'adopt', 'zulu', or 'openjdk'
+        distribution: 'temurin'
 
     - name: Compile and run tests
       run: |
+        cd $GITHUB_WORKSPACE/src
         javac Calculator.java TestCalculateOutput.java
         java TestCalculateOutput
 
