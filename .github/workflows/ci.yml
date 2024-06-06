@@ -18,8 +18,10 @@ jobs:
 
       - name: Install Buildr
         run: |
-          sudo apt-get update
-          sudo apt-get install -y buildr
+          wget https://www.apache.org/dist/buildr/buildr-1.5.3.tgz
+          tar -xzf buildr-1.5.3.tgz
+          sudo mv buildr-1.5.3 /usr/local/buildr
+          export PATH=$PATH:/usr/local/buildr/bin
 
       - name: Build with Buildr
         run: buildr compile
